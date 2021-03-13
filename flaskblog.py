@@ -3,7 +3,7 @@ from flask import redirect  #imports redirect method from flask
 from flask import render_template # Jinja 2  engine for rendering teplates
 from flask import flash # diplays one time messages
 from flask import url_for # creates links for routing
-from forms import RegistrationForm
+from forms import RegistrationForm, Login, MoreInfo
 app = Flask(__name__) 
 
 app.config['SECRET_KEY'] = '1'
@@ -43,6 +43,24 @@ def register():
     else:
         flash("invalid form !", category="danger")
     return render_template('register.html', title='register', form=form)
+
+@app.route("/login", methods=["POST", "GET"])
+def login():
+    form = Login()
+    print('ran')
+    if form.validate_on_submit():
+        print('ran loop')
+        flash(f"congrats {form.email.data} you have logged in!", "success")
+        return redirect(url_for("home"))
+    return render_template("login.html", form=form)
+
+@app.route("/more", methods=["POST", "GET"])
+def more():
+    form = MoreInfo()
+    if form.is_submitted() and form.validate():
+        flash(f"successfully added more information", "success")
+        return redirect(urlfor("home"))
+    return render_template("more.html")
 
 
 if __name__ == "__main__":
