@@ -40,8 +40,6 @@ def register():
     if form.validate_on_submit():
         flash(message1 + str(form.f_name.data), category)
         return redirect(url_for('home'))
-    else:
-        flash("invalid form !", category="danger")
     return render_template('register.html', title='register', form=form)
 
 @app.route("/login", methods=["POST", "GET"])
