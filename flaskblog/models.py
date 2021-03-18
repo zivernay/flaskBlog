@@ -1,18 +1,22 @@
 from datetime import datetime
-from flaskblog import db
+from flaskblog import db, login_manager
+from flask_login import UserMixin
 
-class User(db.Model):
+@login_manager.user_loader
+def  load_user(user_id):
+    return User.query.get(user_id)
+
+class User(db.Model, UserMixin):
     id = db.Column(db.Integer,nullable=False, primary_key=True, unique=True)
     username = db.Column(db.String(128), unique=True, nullable=False)
-    fname = db.Column(db.String(30), nullable=False)
-    lname = db.Column(db.String(30), nullable=False)
+    email = db.Column(db.String(60), nullable=False)
     image_file  = db.Column(db.String(20), default="default.jpg")
     password = db.Column(db.String(60), nullable=True)
 
     posts = db.relationship("Post", backref="author", lazy = True)
 
     def __repr__(self):
-        return f"User({self.username}, {self.id}, {self.image_file})"
+        return f"User({self.username}, {self.id} ,{self.email} ,{self.image_file})"
 
 
 class Post(db.Model):

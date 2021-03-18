@@ -8,44 +8,44 @@
         <fieldset class="form-group">
             <legend class="border-bottom mb-4">Sign Up</legend>
             <div class="form-group">
-                {{ form.f_name.label(class="form-control-label") }}
+                {{ form.username.label(class="form-control-label") }}
 
-                    {% if form.f_name.errors %}
-                    {{ form.f_name(class="form-control form-control-lg is-invalid")}}
+                    {% if form.username.errors %}
+                    {{ form.username(class="form-control form-control-lg is-invalid")}}
                     <div class="invalid-feedback">
-                        {% for error in form.f_name.errors %}
+                        {% for error in form.username.errors %}
                             <span>{{ error }}</span>
                         {% endfor %}
                     </div>
                     {% else%}
-                    {{ form.f_name(class="form-control form-control-lg") }}
+                    {{ form.username(class="form-control form-control-lg") }}
                     {% endif %}
             </div>
             <div class="form-group">
-                {{ form.l_name.label(class="form-control-label") }}
+                {{ form.email.label(class="form-control-label") }}
 
-                {% if form.l_name.errors %}
-                {{ form.l_name(class="form-control form-control-lg is-invalid")}}
+                {% if form.email.errors %}
+                {{ form.email(class="form-control form-control-lg is-invalid")}}
                     <div class="invalid-feedback">
-                        {% for error in form.l_name.errors %}
+                        {% for error in form.email.errors %}
                             <span>{{ error }}</span>
                         {% endfor %}
                     </div>
                 {% else %}
-                    {{ form.l_name(class="form-control form-control-lg") }}
+                    {{ form.email(class="form-control form-control-lg") }}
                 {% endif %}
             </div>
             <div class="form-group">
-                {{ form.s_name.label(class="form-control-label") }}
-                {% if form.s_name.errors %}
-                    {{ form.s_name(class="form-control form-control-lg is-invalid")}}
+                {{ form.password.label(class="form-control-label") }}
+                {% if form.password.errors %}
+                    {{ form.password(class="form-control form-control-lg is-invalid")}}
                     <div class="invalid-feedback">
-                        {% for error in form.s_name.errors %}
+                        {% for error in form.password.errors %}
                             <span>{{ error }}</span>
                         {% endfor %}
                     </div>
                 {% else %}
-                    {{ form.s_name(class="form-control form-control-lg") }}
+                    {{ form.password(class="form-control form-control-lg") }}
                 {% endif %}
             </div>
         </fieldset>
