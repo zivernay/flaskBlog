@@ -3,32 +3,19 @@ from flask import redirect , request #imports redirect method from flask
 from flask import render_template #Jinja 2  engine for rendering teplates
 from flask import flash #diplays one time messages
 from flask import url_for #creates links for routing
-from flaskblog.forms import RegistrationForm, Login, MoreInfo, UpadateAccountForm
-from flaskblog.models import User
+from flaskblog.forms import RegistrationForm, Login, MoreInfo, UpadateAccountForm, NewPost
+from flaskblog.models import User, Post
 from flask_login import login_user, logout_user #login function that takes user object
 from flask_login import current_user, login_required
 import secrets #to genrate a random hex used as file names e.g images
 import os #used to get file extensions
 from PIL import Image #to handle images like resizing to save space
 
-posts = [
-    {
-        'author': 'AD Zivanai',
-        'title': 'Blog Post 1',
-        'content': 'First post content',
-        'date_posted': 'April 20, 2018'
-    },
-    {
-        'author': 'Jane Doe',
-        'title': 'Blog Post 2',
-        'content': 'Second post content',
-        'date_posted': 'April 21, 2018'
-    }
-]
 
 @app.route("/") #setting up the routes/ url which run the function
 @app.route("/home")
 def home():
+    posts = Post.query.all()
     return render_template("home.html", posts = posts)
 
 @app.route("/about")
@@ -112,3 +99,15 @@ def account():
         form.email.data = current_user.email    
     image = url_for('static', filename=f"image_files/{current_user.image_file}")
     return render_template("account.html", title="Account", image_file=image, form=form)
+
+@app.route("/post/new", methods=["POST", "GET"])
+@login_required
+def post_new():
+    form = NewPost()
+    if form.is_submitted() and form.validate():
+        post = Post(title=form.title.data, content=form.content.data, author=current_user)
+        db.session.add(post)
+        db.session.commit()
+        flash("Content Posted.", "success")
+        return redirect(url_for("home"))
+    return render_template("new_post.html", title="New Post", form=form)

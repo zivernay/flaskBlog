@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField, DateField, SelectField, SelectMultipleField, BooleanField
+from wtforms import StringField, PasswordField, SubmitField, DateField, SelectField, SelectMultipleField, BooleanField, TextAreaField
 from wtforms.validators import DataRequired, Length, Email, Optional, ValidationError, EqualTo
 from flaskblog.models import User
 from flaskblog import db
@@ -53,3 +53,8 @@ class UpadateAccountForm(FlaskForm):
         if current_user.email != email.data:
             if User.query.filter_by(email=email.data).first():
                 raise ValidationError("email already exists!. Please try signing in")
+
+class NewPost(FlaskForm):
+    title = StringField("title", validators=[DataRequired()])
+    content = TextAreaField("Content", validators=[DataRequired()])
+    submit = SubmitField("Post")
